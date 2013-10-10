@@ -1755,8 +1755,8 @@ if (typeof Piwik !== 'object') {
                 if (configPerformanceTrackingEnabled && configPerformanceGenerationTime) {
                     request += '&gt_ms=' + configPerformanceGenerationTime;
                 } else if (configPerformanceTrackingEnabled && performanceAlias && performanceAlias.timing
-                        && performanceAlias.timing.requestStart && performanceAlias.timing.responseEnd) {
-                    request += '&gt_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
+                        && performanceAlias.timing.navigationStart && performanceAlias.timing.loadEventEnd) {
+                    request += '&gt_ms=' + (performanceAlias.timing.loadEventEnd - performanceAlias.timing.navigationStart);
                 }
 
                 // update cookies
