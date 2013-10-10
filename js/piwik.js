@@ -634,43 +634,18 @@ if (typeof Piwik !== 'object') {
         function addReadyListener() {
             var _timer;
 
-            if (documentAlias.addEventListener) {
-                addEventListener(documentAlias, 'DOMContentLoaded', function ready() {
-                    documentAlias.removeEventListener('DOMContentLoaded', ready, false);
-                    loadHandler();
-                });
-            } else if (documentAlias.attachEvent) {
+            if (documentAlias.attachEvent) {
                 documentAlias.attachEvent('onreadystatechange', function ready() {
                     if (documentAlias.readyState === 'complete') {
                         documentAlias.detachEvent('onreadystatechange', ready);
                         loadHandler();
                     }
                 });
-
-                if (documentAlias.documentElement.doScroll && windowAlias === windowAlias.top) {
-                    (function ready() {
-                        if (!hasLoaded) {
-                            try {
-                                documentAlias.documentElement.doScroll('left');
-                            } catch (error) {
-                                setTimeout(ready, 0);
-
-                                return;
-                            }
-                            loadHandler();
-                        }
-                    }());
-                }
-            }
-
-            // sniff for older WebKit versions
-            if ((new RegExp('WebKit')).test(navigatorAlias.userAgent)) {
-                _timer = setInterval(function () {
-                    if (hasLoaded || /loaded|complete/.test(documentAlias.readyState)) {
-                        clearInterval(_timer);
-                        loadHandler();
-                    }
-                }, 10);
+            } else if (documentAlias.addEventListener) {
+                addEventListener(documentAlias, 'DOMContentLoaded', function ready() {
+                    documentAlias.removeEventListener('DOMContentLoaded', ready, false);
+                    loadHandler();
+                });
             }
 
             // fallback
